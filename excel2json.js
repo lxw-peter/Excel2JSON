@@ -41,12 +41,14 @@ function compareItem(item) {
       // 如果一级标题的title 相同,再将后者的children push 到前者的children上,并将后者去除
       if (item[i].title === item[j].title) {
         item[j].children.forEach(n => {
-          item[i].children.push(n);
+          // 插入数组首位
+          item[i].children.unshift(n);
           item.splice(j, 1);
         })
       }
     }
   }
+  item.map(child => child.children.unshift(child.children.pop()))
 }
 
 // 给对象赋默认值
@@ -72,10 +74,6 @@ function childrenNull(newArray) {
     }
   })
 }
-
-
-
-writeFile(`${filename}.json`, JSON.stringify(newArray));
 
 function writeFile(filename, data) {
   fs.writeFileSync(filename, data, 'utf-8', complete);
